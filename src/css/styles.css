@@ -1,0 +1,46 @@
+@keyframes cardScroll {
+    0% {
+    transform: translateX(0);
+    }
+    100% {
+    transform: translateX(-50%);
+    }
+}
+
+.animate-card-scroll {
+    animation: cardScroll 30s linear infinite;
+}
+
+.default-city-card {
+    min-width: 240px;
+    height: 120px;
+    background: rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(6px);
+    border-radius: 16px;
+    padding: 14px;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.default-city-card:hover {
+    transform: scale(1.05);
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.bg-clear {
+background: linear-gradient(to bottom right, #38bdf8, #2563eb);
+}
+
+.bg-rain {
+background: linear-gradient(to bottom right, #1e293b, #334155);
+}
+
+.bg-haze {
+background: linear-gradient(to bottom right, #94a3b8, #64748b);
+}
+
+.bg-smoke {
+background: linear-gradient(to bottom right, #6b7280, #374151);
+}
+
