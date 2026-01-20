@@ -51,21 +51,43 @@ function loadLocationWeather() {
 
 
 function displayWeather(data) {
-  document.getElementById("currentWeather").classList.remove("hidden");
-  document.getElementById("cityName").textContent = data.name;
+    const iconCode = data.weather[0].icon;
+    const iconUrl = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
+    document.getElementById("weatherIcon").src = iconUrl;
 
-  currentTemp = data.main.temp;
-  document.getElementById("temperature").textContent =
-    `${convertTemp(currentTemp, isCelsius)}°`;
+    document.getElementById("currentWeather").classList.remove("hidden");
+    document.getElementById("cityName").textContent = data.name;
 
-  document.getElementById("condition").textContent = data.weather[0].description;
-  document.getElementById("humidity").textContent = `Humidity: ${data.main.humidity}%`;
-  document.getElementById("wind").textContent = `Wind: ${data.wind.speed} km/h`;
+    currentTemp = data.main.temp;
+    document.getElementById("temperature").textContent =
+        `${convertTemp(currentTemp, isCelsius)}°`;
 
-  if (currentTemp > 40) {
-    document.getElementById("alertBox").textContent =
-      "⚠ Extreme Heat Alert!";
-  }
+    document.getElementById("condition").textContent = data.weather[0].description;
+    document.getElementById("humidity").textContent = `Humidity: ${data.main.humidity}%`;
+    document.getElementById("wind").textContent = `Wind: ${data.wind.speed} km/h`;
+
+    if (currentTemp > 40) {
+        document.getElementById("alertBox").textContent =
+        "⚠ Extreme Heat Alert!";
+    }
+
+    // Dynamic background
+    const condition = data.weather[0].description.toLowerCase();
+    const body = document.body;
+
+    // reset previous backgrounds
+    body.classList.remove("bg-clear", "bg-rain", "bg-haze", "bg-smoke");
+
+    if (condition.includes("rain")) {
+    body.classList.add("bg-rain");
+    } else if (condition.includes("haze")) {
+    body.classList.add("bg-haze");
+    } else if (condition.includes("smoke")) {
+    body.classList.add("bg-smoke");
+    } else {
+    body.classList.add("bg-clear");
+    }
+
 }
 
 function displayForecast(data) {
@@ -86,6 +108,7 @@ function displayForecast(data) {
 }
 
 function populateDropdown() {
+
   const cities = getCities();
   if (!cities.length) return;
 
@@ -122,10 +145,17 @@ async function loadDefaultCities() {
     const card = document.createElement("div");
     card.className = "default-city-card";
 
+    const icon = data.weather[0].icon;
+
     card.innerHTML = `
-      <h3 class="text-lg font-semibold">${data.name}</h3>
-      <p class="text-2xl font-bold mt-1">${Math.round(data.main.temp)}°C</p>
-      <p class="text-sm capitalize">${data.weather[0].description}</p>
+    <div class="flex items-center gap-3">
+        <img src="https://openweathermap.org/img/wn/${icon}.png" class="w-10 h-10">
+        <div>
+        <h3 class="text-lg font-semibold">${data.name}</h3>
+        <p class="text-2xl font-bold">${Math.round(data.main.temp)}°C</p>
+        <p class="text-sm capitalize">${data.weather[0].description}</p>
+        </div>
+    </div>
     `;
 
     card.addEventListener("click", () => {
