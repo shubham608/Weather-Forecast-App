@@ -61,7 +61,6 @@ function loadLocationWeather() {
   );
 }
 
-
 function displayWeather(data) {
     const iconCode = data.weather[0].icon;
     const iconUrl = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
