@@ -18,9 +18,13 @@
 
     <!-- Search Section -->
     <div class="flex flex-col sm:flex-row gap-3 mb-4">
-      <input id="cityInput" type="text"
+      <input
+        id="cityInput"
+        type="text"
         placeholder="Enter city name"
-        class="flex-1 p-2 rounded text-black" />
+        class="flex-1 p-2 rounded text-black
+              border border-gray-300
+              focus:outline-none focus:ring-2 focus:ring-blue-400"/>
 
       <button id="searchBtn"
         class="bg-blue-800 px-4 py-2 rounded hover:bg-blue-900">
@@ -42,8 +46,12 @@
     </div>
 
     <!-- Recent Cities Dropdown  -->
-    <select id="recentCities"
-      class="hidden w-full p-2 rounded text-black mb-4"></select>
+    <select
+      id="recentCities"
+      class="hidden w-full p-2 rounded text-black mb-4
+            border border-gray-300
+            focus:outline-none focus:ring-2 focus:ring-blue-400">
+    </select>
 
     <!-- Error Message -->
     <div id="errorBox"
