@@ -9,6 +9,18 @@ const searchBtn = document.getElementById("searchBtn");
 const locationBtn = document.getElementById("locationBtn");
 const recentCities = document.getElementById("recentCities");
 
+const unitToggle = document.getElementById("unitToggle");
+
+unitToggle.addEventListener("click", () => {
+  isCelsius = !isCelsius;
+
+  document.getElementById("temperature").textContent =
+    `${convertTemp(currentTemp, isCelsius)}°`;
+
+  unitToggle.textContent = isCelsius ? "°C" : "°F";
+});
+
+
 let isCelsius = true;
 let currentTemp = 0;
 
@@ -66,10 +78,15 @@ function displayWeather(data) {
     document.getElementById("humidity").textContent = `Humidity: ${data.main.humidity}%`;
     document.getElementById("wind").textContent = `Wind: ${data.wind.speed} km/h`;
 
+    const alertBox = document.getElementById("alertBox");
+    alertBox.classList.add("hidden");
+    alertBox.textContent = "";
+
     if (currentTemp > 40) {
-        document.getElementById("alertBox").textContent =
-        "⚠ Extreme Heat Alert!";
+        alertBox.textContent = "⚠ Extreme Heat Alert! Stay hydrated.";
+        alertBox.classList.remove("hidden");
     }
+
 
     // Dynamic background
     const condition = data.weather[0].description.toLowerCase();
@@ -97,12 +114,19 @@ function displayForecast(data) {
   data.list.filter((_, i) => i % 8 === 0).slice(0, 5).forEach(day => {
     const div = document.createElement("div");
     div.className = "bg-white text-black p-3 rounded shadow";
+    const icon = day.weather[0].icon;
+
     div.innerHTML = `
-      <p class="font-bold">${new Date(day.dt_txt).toDateString()}</p>
-      <p>🌡 ${day.main.temp}°C</p>
-      <p>💧 ${day.main.humidity}%</p>
-      <p>💨 ${day.wind.speed} km/h</p>
+    <p class="font-bold">${new Date(day.dt_txt).toDateString()}</p>
+    <img 
+        src="https://openweathermap.org/img/wn/${icon}.png"
+        alt="Weather icon"
+        class="w-12 h-12 mx-auto"/>
+    <p>🌡 ${day.main.temp}°C</p>
+    <p>💧 ${day.main.humidity}%</p>
+    <p>💨 ${day.wind.speed} km/h</p>
     `;
+
     container.appendChild(div);
   });
 }
